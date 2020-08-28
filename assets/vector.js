@@ -1,11 +1,11 @@
 // Adaptation of the vector object from the p5.js library, 2D for now
 
 class Vector {
-    constructor(x, y) {
+    constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
-        this.mag = Math.sqrt((x) ^ 2 + (y) ^ 2);
-        this.dir = 0;
+        this.mag = this.mag();
+        this.dir = this.heading();
     }
 
     set(x, y) {
@@ -14,23 +14,38 @@ class Vector {
     }
 
     add(x, y = null) {
+        var temp = new Vector(x.x + y.x, x.y + y.y);
         if (typeof x === 'object') {
-            this.x += x.x;
-            this.y += x.y;
+            if (y === null) {
+                temp.x += x.x;
+                temp.y += x.y;
+            } else {
+                temp.x = x.x + y.x;
+                temp.y = y.x + y.y;
+            }
         } else {
-            this.x += x;
-            this.y += y;
+            temp.x += x;
+            temp.y += y;
         }
+
+        return temp;
     }
 
-    sub(x, y) {
+    sub(x, y = null) {
+        var temp = new Vector(this.x, this.y);
         if (typeof x === 'object') {
-            this.x -= x.x;
-            this.y -= x.y;
+            if (y === null) {
+                temp.x -= x.x;
+                temp.y -= x.y;
+            } else {
+                
+            }
         } else {
-            this.x -= x;
-            this.y -= y;
+            temp.x -= x;
+            temp.y -= y;
         }
+
+        return temp;
     }
 
     mult(e) {
@@ -55,17 +70,24 @@ class Vector {
             res.x /= e;
             res.y /= e;
         }
+
+        return res;
     }
 
     dist(v1, v2) {
         return Math.sqrt((v1.x - v2.x) ^ 2 + (v2.x - v2.y) ^ 2);
     }
 
+    mag() {
+        return Math.sqrt(this.x^2 + this.y^2);
+    }
+
     setMag(m) {
-        this.mag = m;
+        this.x = Math.sin(this.dir) * m;
+        this.y = Math.cos(this.dir) * m;
     }
 
     heading() {
-        // Calculate the angle of rotation for this vector
+        return ctg(this.y/this.x);
     }
 }

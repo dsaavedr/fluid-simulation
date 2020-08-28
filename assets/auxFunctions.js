@@ -42,3 +42,7 @@ function HSVtoRGB(h, s, v) {
     var string = "rgb(" + Math.round(r * 255) + "," + Math.round(g * 255) + "," + Math.round(b * 255) + ")";
     return string
 }
+
+function ctg(x) {
+    return 1 / Math.tan(x);
+}
