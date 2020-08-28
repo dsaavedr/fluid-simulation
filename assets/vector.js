@@ -19,16 +19,13 @@ class Vector {
     }
 
     add(v0, v1 = null) {
-        var r = new Vector(this.x, this.y);
         if (typeof v0 === 'object') {
-            r.x += v0.x;
-            r.y += v0.y;
+            this.x += v0.x;
+            this.y += v0.y;
         } else {
-            r.x += v0;
-            r.y += v1;
+            this.x += v0;
+            this.y += v1;
         }
-
-        return r;
     }
 
     static sub(v0, v1) {
@@ -37,16 +34,13 @@ class Vector {
     }
 
     sub(v0, v1 = null) {
-        var r = new Vector(this.x, this.y);
         if (typeof v0 === 'object') {
-            r.x -= v0.x;
-            r.y -= v0.y;
+            this.x -= v0.x;
+            this.y -= v0.y;
         } else {
-            r.x -= v0;
-            r.y -= v1;
+            this.x -= v0;
+            this.y -= v1;
         }
-
-        return r;
     }
 
     mult(e) {

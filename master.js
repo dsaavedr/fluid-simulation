@@ -1,4 +1,6 @@
-var x;
+var x,
+    walker,
+    s = 3;
 
 var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
@@ -35,24 +37,20 @@ function init() {
 
   ctx.strokeStyle = 'white';
 
-  var v0 = new Vector(10, 10);
-  var v1 = new Vector(100, 100);
+  walker = new Walker(WIDTH/2, HEIGHT/2);
   
   ani();
 }
 
 function ani() {
+    // ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-    // requestAnimationFrame(ani);
-}
+    walker.vel.set(random(-s, s), random(-s, s));
 
-function arrow(e) {
-    ctx.save();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(e.x, e.y);
-    // ctx.rotate(e.heading());
-    ctx.stroke();
-    ctx.restore();
+    walker.update();
+    walker.show();
+
+    requestAnimationFrame(ani);
 }
 
 init();
