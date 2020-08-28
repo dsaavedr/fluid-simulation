@@ -1,5 +1,7 @@
 var N = 256,
-    fluid;
+    iter = 4,
+    fluid,
+    WIDTH, HEIGHT;
 
 var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
@@ -10,8 +12,10 @@ var requestAnimationFrame = window.requestAnimationFrame ||
     window.msRequestAnimationFrame;
 
 function init() {
-  WIDTH = window.innerWidth;
-  HEIGHT = window.innerHeight;
+  /* WIDTH = window.innerWidth;
+  HEIGHT = window.innerHeight; */
+  WIDTH = N;
+  HEIGHT = N;
     
   canvas.setAttribute('width', WIDTH);
   canvas.setAttribute('height', HEIGHT);
@@ -31,6 +35,8 @@ function init() {
 }
 
 function ani() {
+
+    fluid.step();
 
     // requestAnimationFrame(ani);
 }
