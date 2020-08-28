@@ -50,3 +50,7 @@ function HSVtoRGB(h, s, v) {
 function ctg(x) {
     return 1 / Math.tan(x);
 }
+
+function IX(x, y, N) {
+    return x + y * N
+}
