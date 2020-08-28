@@ -34,6 +34,9 @@ function init() {
   ctx.closePath();
 
   ctx.strokeStyle = 'white';
+
+  var v0 = new Vector(10, 10);
+  var v1 = new Vector(100, 100);
   
   ani();
 }
@@ -52,4 +55,4 @@ function arrow(e) {
     ctx.restore();
 }
 
-// init();
+init();

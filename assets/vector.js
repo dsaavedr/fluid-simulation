@@ -13,39 +13,40 @@ class Vector {
         this.y = y;
     }
 
-    add(x, y = null) {
-        var temp = new Vector(x.x + y.x, x.y + y.y);
-        if (typeof x === 'object') {
-            if (y === null) {
-                temp.x += x.x;
-                temp.y += x.y;
-            } else {
-                temp.x = x.x + y.x;
-                temp.y = y.x + y.y;
-            }
-        } else {
-            temp.x += x;
-            temp.y += y;
-        }
-
-        return temp;
+    static add(v0, v1) {
+        var r = new Vector(v0.x + v1.x, v0.y + v1.y);
+        return r;
     }
 
-    sub(x, y = null) {
-        var temp = new Vector(this.x, this.y);
-        if (typeof x === 'object') {
-            if (y === null) {
-                temp.x -= x.x;
-                temp.y -= x.y;
-            } else {
-                
-            }
+    add(v0, v1 = null) {
+        var r = new Vector(this.x, this.y);
+        if (typeof v0 === 'object') {
+            r.x += v0.x;
+            r.y += v0.y;
         } else {
-            temp.x -= x;
-            temp.y -= y;
+            r.x += v0;
+            r.y += v1;
         }
 
-        return temp;
+        return r;
+    }
+
+    static sub(v0, v1) {
+        var r = new Vector(v0.x - v1.x, v0.y - v1.y);
+        return r;
+    }
+
+    sub(v0, v1 = null) {
+        var r = new Vector(this.x, this.y);
+        if (typeof v0 === 'object') {
+            r.x -= v0.x;
+            r.y -= v0.y;
+        } else {
+            r.x -= v0;
+            r.y -= v1;
+        }
+
+        return r;
     }
 
     mult(e) {
@@ -74,8 +75,8 @@ class Vector {
         return res;
     }
 
-    dist(v1, v2) {
-        return Math.sqrt((v1.x - v2.x) ^ 2 + (v2.x - v2.y) ^ 2);
+    static dist(v1, v2) {
+        return Math.sqrt(Math.pow((v1.x - v2.x), 2) + Math.pow((v2.x - v2.y), 2));
     }
 
     mag() {
