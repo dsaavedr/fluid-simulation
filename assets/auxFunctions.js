@@ -17,6 +17,10 @@ function point(x, y, c = 'white', r){
     ctx.restore();
 }
 
+function rad2Ang(r) {
+    return r * 180/Math.PI;
+}
+
 function random(min = 0, max = 1) {
     return Math.random() * (max - min) + min;
 }

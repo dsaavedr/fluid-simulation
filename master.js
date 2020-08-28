@@ -1,4 +1,4 @@
-
+var x;
 
 var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
@@ -32,14 +32,24 @@ function init() {
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
   ctx.closePath();
+
+  ctx.strokeStyle = 'white';
   
   ani();
 }
 
 function ani() {
-  
-  
-  //requestAnimationFrame(ani);
+
+    // requestAnimationFrame(ani);
 }
 
-//init();
+function arrow(e) {
+    ctx.save();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(e.x, e.y);
+    // ctx.rotate(e.heading());
+    ctx.stroke();
+    ctx.restore();
+}
+
+// init();

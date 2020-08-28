@@ -4,7 +4,7 @@ class Vector {
     constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
-        this.mag = this.mag();
+        this.m = this.mag();
         this.dir = this.heading();
     }
 
@@ -79,15 +79,17 @@ class Vector {
     }
 
     mag() {
-        return Math.sqrt(this.x^2 + this.y^2);
+        var i = Math.pow(this.x, 2) + Math.pow(this.y, 2);
+        return Math.sqrt(i);
     }
 
     setMag(m) {
-        this.x = Math.sin(this.dir) * m;
-        this.y = Math.cos(this.dir) * m;
+        this.m = m;
+        this.x = Math.cos(this.dir) * m;
+        this.y = Math.sin(this.dir) * m;
     }
 
     heading() {
-        return ctg(this.y/this.x);
+        return Math.atan(this.y/this.x);
     }
 }
