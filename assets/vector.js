@@ -8,9 +8,14 @@ class Vector {
         this.dir = this.heading();
     }
 
+    copy() {
+        return new Vector(this.x, this.y);
+    }
+
     set(x, y) {
         this.x = x;
         this.y = y;
+        return this;
     }
 
     static add(v0, v1) {
@@ -26,6 +31,7 @@ class Vector {
             this.x += v0;
             this.y += v1;
         }
+        return this;
     }
 
     static sub(v0, v1) {
@@ -41,32 +47,31 @@ class Vector {
             this.x -= v0;
             this.y -= v1;
         }
+        return this;
     }
 
     mult(e) {
-        var res = new Vector(this.x, this.y);
         if (typeof e === 'object') {
-            res.x *= e.x;
-            res.y *= e.y;
+            this.x *= e.x;
+            this.y *= e.y;
         } else {
-            res.x *= e;
-            res.y *= e;
+            this.x *= e;
+            this.y *= e;
         }
 
-        return res;
+        return this;
     }
 
     div(e) {
-        var res = new Vector(this.x, this.y);
         if (typeof e === 'object') {
-            res.x /= e.x;
-            res.y /= e.y;
+            this.x /= e.x;
+            this.y /= e.y;
         } else {
-            res.x /= e;
-            res.y /= e;
+            this.x /= e;
+            this.y /= e;
         }
 
-        return res;
+        return this;
     }
 
     static dist(v1, v2) {
@@ -85,6 +90,16 @@ class Vector {
     }
 
     heading() {
-        return Math.atan(this.y/this.x);
+        return Math.atan2(this.x, this.y);
+    }
+
+    static random() {
+        // Random unit (m=1) vector
+        var ang = random(-Math.PI, Math.PI);
+
+        var x = Math.cos(ang);
+        var y = Math.sin(ang);
+
+        return new Vector(x, y);
     }
 }

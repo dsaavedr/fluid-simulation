@@ -37,20 +37,21 @@ function init() {
 
   ctx.strokeStyle = 'white';
 
-  walker = new Walker(WIDTH/2, HEIGHT/2);
+  ctx.translate(WIDTH/2, HEIGHT/2);
   
   ani();
 }
 
 function ani() {
-    // ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-    walker.vel.set(random(-s, s), random(-s, s));
+    v = Vector.random();
+    v.mult(200);
 
-    walker.update();
-    walker.show();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(v.x, v.y);
+    ctx.stroke();
 
-    requestAnimationFrame(ani);
+    // requestAnimationFrame(ani);
 }
 
 init();
