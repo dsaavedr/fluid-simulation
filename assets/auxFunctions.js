@@ -51,6 +51,16 @@ function ctg(x) {
     return 1 / Math.tan(x);
 }
 
-function IX(x, y, N) {
-    return x + y * N
+function IX(x, y) {
+  return x + y * N;
+}
+
+function constrain(n, min, max) {
+    if (n < min) {
+        return min;
+    } else if (n > max) {
+        return max;
+    } else {
+        return n;
+    }
 }

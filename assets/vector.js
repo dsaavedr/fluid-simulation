@@ -102,4 +102,11 @@ class Vector {
 
         return new Vector(x, y);
     }
+
+    static fromAngle(a) {
+        var x = Math.cos(a);
+        var y = Math.sin(a);
+
+        return new Vector(x, y);
+    }
 }

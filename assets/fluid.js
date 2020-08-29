@@ -1,66 +1,98 @@
+let N = 128;
+let iter = 16;
+let SCALE = 8;
+let t = 0;
+
+// function to use 1D array and fake the extra two dimensions --> 3D
+function IX(x, y) {
+  return x + y * N;
+}
+
+// Fluid cube class
 class Fluid {
-    constructor(dt, diffusion, viscosity) {
-        this.size;
-        this.dt;
-        this.diff;
-        this.visc;
+  constructor(dt, diffusion, viscosity) {
+    this.size = N;
+    this.dt = dt;
+    this.diff = diffusion;
+    this.visc = viscosity;
 
-        this.s = [];
-        this.density = [];
+    this.s = new Array(N * N).fill(0);
+    this.density = new Array(N * N).fill(0);
 
-        this.Vx = [];
-        this.Vy = [];
-        this.Vx0 = [];
-        this.Vy0 = [];
+    this.Vx = new Array(N * N).fill(0);
+    this.Vy = new Array(N * N).fill(0);
 
-        this.size = N;
-        this.dt = dt;
-        this.diff = diffusion;
-        this.visc = viscosity;
+    this.Vx0 = new Array(N * N).fill(0);
+    this.Vy0 = new Array(N * N).fill(0);
+  }
 
-        /* this.s = calloc(N * N * N, sizeof(float));
-        this.density = calloc(N * N * N, sizeof(float));
+  // step method
+  step() {
+    let N = this.size;
+    let visc = this.visc;
+    let diff = this.diff;
+    let dt = this.dt;
+    let Vx = this.Vx;
+    let Vy = this.Vy;
+    let Vx0 = this.Vx0;
+    let Vy0 = this.Vy0;
+    let s = this.s;
+    let density = this.density;
 
-        this.Vx = calloc(N * N * N, sizeof(float));
-        this.Vy = calloc(N * N * N, sizeof(float));
+    diffuse(1, Vx0, Vx, visc, dt);
+    diffuse(2, Vy0, Vy, visc, dt);
 
-        this.Vx0 = calloc(N * N * N, sizeof(float));
-        this.Vy0 = calloc(N * N * N, sizeof(float)); */
+    project(Vx0, Vy0, Vx, Vy);
+
+    advect(1, Vx, Vx0, Vx0, Vy0, dt);
+    advect(2, Vy, Vy0, Vx0, Vy0, dt);
+
+    project(Vx, Vy, Vx0, Vy0);
+    diffuse(0, s, density, diff, dt);
+    advect(0, density, s, Vx, Vy, dt);
+  }
+
+  // method to add density
+  addDensity(x, y, amount) {
+    let index = IX(x, y);
+    this.density[index] += amount;
+  }
+
+  // method to add velocity
+  addVelocity(x, y, amountX, amountY) {
+    let index = IX(x, y);
+    this.Vx[index] += amountX;
+    this.Vy[index] += amountY;
+  }
+
+  // function to render density
+  renderD() {
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        let x = i * SCALE;
+        let y = j * SCALE;
+        let d = this.density[IX(i, j)];
+        let c = d;
+        ctx.fillStyle = "rgb(" + c + "," + c + "," + c + ")";
+        ctx.fillRect(x, y, SCALE, SCALE);
+      }
     }
+  }
 
-    step() {
-        var visc     = this.visc;
-        var diff     = this.diff;
-        var dt       = this.dt;
-        var Vx       = this.Vx;
-        var Vy       = this.Vy;
-        var Vx0      = this.Vx0;
-        var Vy0      = this.Vy0;
-        var s        = this.s;
-        var density  = this.density;
-        
-        diffuse(1, Vx0, Vx, visc, dt);
-        diffuse(2, Vy0, Vy, visc, dt);
-        
-        project(Vx0, Vy0, Vx, Vy);
-        
-        advect(1, Vx, Vx0, Vx0, Vy0, dt);
-        advect(2, Vy, Vy0, Vx0, Vy0, dt);
-        
-        project(Vx, Vy, Vx0, Vy0);
-        
-        diffuse(0, s, density, diff, dt);
-        advect(0, density, s, Vx, Vy, dt);
-    }
+  // function to render velocity
+  renderV() {
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        let x = i * SCALE;
+        let y = j * SCALE;
+        let vx = this.Vx[IX(i, j, k)];
+        let vy = this.Vy[IX(i, j, k)];
+        this.canvas.stroke(0);
 
-    addDensity(x, y, amount) {
-        var index = IX(x, y, N);
-        this.density[index] += amount;
+        if (!(abs(vx) < 0.1 && abs(vy) <= 0.1)) {
+          line(x, y, x + vx * SCALE, y + vy * SCALE);
+        }
+      }
     }
-
-    addVelocity(x, y, amountX, amountY) {
-        var index = IX(x, y, this.size);
-        this.Vx[index] += amountX;
-        this.Vy[index] += amountY;
-    }
+  }
 }
